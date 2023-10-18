@@ -1,12 +1,20 @@
-import { configureStore } from '@reduxjs/toolkit'
+import { configureStore, } from '@reduxjs/toolkit'
 import AuthReducer from "../Features/Auth/AuthSlice.ts"
 
 
-export type RootState = ReturnType<typeof AuthReducer>
 export const store = configureStore({
   reducer: {
-    auth: AuthReducer
-  }
+    auth: AuthReducer,
+    
+    
+    
+  },
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware({
+    serializableCheck: false,
+  }),
+  
 })
 
 export type AppDispatch = typeof store.dispatch
+export type RootState = ReturnType<typeof store.getState>
+

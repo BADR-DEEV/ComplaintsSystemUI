@@ -1,17 +1,11 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import authService from './AuthService'
+import { LoginForm, AuthState } from "./ObjectInterface";
 
 
-interface AuthState {
-    user: string | null,
-    isError: boolean,
-    isSuccess: boolean,
-    isLoading: boolean,
-    message: string,
 
-
-};
 const user: string | null = JSON.parse(localStorage.getItem('user') as string);
+
 const initialState: AuthState = {
     user: user ? user : null,
     isError: false,
@@ -20,27 +14,16 @@ const initialState: AuthState = {
     message: '',
 }
 // Login user
-export const login = createAsyncThunk('auth/login', async (formData, thunkAPI) => {
+export const login = createAsyncThunk('auth/login', async (formData: LoginForm, thunkAPI) => {
     try {
-        console.log(formData)
-
         return await authService.login(formData)
+    } catch (error: any) {
+        console.log(error.response.data)
+       reset()
+        return thunkAPI.rejectWithValue(error.response.data)
 
-
-    } catch (error : any) { 
-        const message =
-            (error.response && error.response.data && error.response.data.message) ||
-            error.message ||
-            error.toString()
-        return thunkAPI.rejectWithValue(message)
     }
 })
-
-
-
-
-
-
 
 export const AuthSlice = createSlice({
     name: "auth",
@@ -52,11 +35,7 @@ export const AuthSlice = createSlice({
             state.isSuccess = false
             state.message = ''
             state.user = null
-
-
         },
-
-
     },
     extraReducers: (builder) => {
         builder
@@ -73,8 +52,8 @@ export const AuthSlice = createSlice({
                 state.isError = true
                 state.message = action.payload as string
                 state.user = null
+                
             })
-
     }
 });
 
