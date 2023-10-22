@@ -6,7 +6,7 @@ import { LoginForm, AuthState } from "./ObjectInterface";
 
 const user: string | null = JSON.parse(localStorage.getItem('user') as string);
 
-const initialState: AuthState = {
+ var initialState: AuthState = {
     user: user ? user : null,
     isError: false,
     isSuccess: false,
@@ -14,13 +14,17 @@ const initialState: AuthState = {
     message: '',
 }
 // Login user
-export const login = createAsyncThunk('auth/login', async (formData: LoginForm, thunkAPI) => {
+export const login = createAsyncThunk('auth/login', async (formData: LoginForm, thunkAPI ) => {
     try {
-        return await authService.login(formData)
+        var response = await authService.login(formData)
+      return thunkAPI.fulfillWithValue(response)
+
+
     } catch (error: any) {
-        console.log(error.response.data)
-       reset()
-        return thunkAPI.rejectWithValue(error.response.data)
+        const message =  (error.response && error.response.data && error.response.data.message) ||
+        error.message ||
+        error.toString()
+        return thunkAPI.rejectWithValue(message)
 
     }
 })
@@ -46,13 +50,15 @@ export const AuthSlice = createSlice({
                 state.isLoading = false
                 state.isSuccess = true
                 state.user = action.payload as any
+                state.message = action.payload as any
+                state.isError = false
             })
             .addCase(login.rejected, (state, action) => {
                 state.isLoading = false
                 state.isError = true
-                state.message = action.payload as string
                 state.user = null
-                
+                state.message = action.payload as any
+
             })
     }
 });

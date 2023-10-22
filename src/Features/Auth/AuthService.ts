@@ -1,5 +1,5 @@
 import axios from 'axios'
-import setAuthToken from '../../../Utilities/SetAuthToken'
+import setAuthToken from '../../Utilities/SetAuthToken'
 import { LoginForm } from './ObjectInterface'
 
 
@@ -17,8 +17,9 @@ const login = async (formData: LoginForm) => {
         if (res) {
             localStorage.setItem('user', JSON.stringify(res.data.access_token))
             setAuthToken(res.data.access_token)
+            return res.data
+            
         }
-    console.log(res)
 
 
     })

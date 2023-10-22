@@ -1,83 +1,160 @@
-import * as Form from '@radix-ui/react-form';
-import './LoginScreen.css';
-import { useSelector, useDispatch } from 'react-redux'
-import { RootState } from '../app/Store';
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
+import CssBaseline from '@mui/material/CssBaseline';
+import TextField from '@mui/material/TextField';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
+import Link from '@mui/material/Link';
+import Paper from '@mui/material/Paper';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
+import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../Features/Auth/AuthSlice';
-import Loader from '../Components/Loader';
+import { RootState } from '../app/Store';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Form, Formik, FormikProps } from 'formik';
+import { LoginFormValues, LoginSchema } from '../Utilities/FormSchema';
+import CircularProgress from '@mui/material/CircularProgress';
+import { Copyright } from '../Components/CopyRight';
+
+
 export default function LoginScreen() {
-
-
-
     const dispatch = useDispatch();
-    const userLoginInfo = useSelector(
-        (state: RootState) => state.auth
-    )
-    const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        const target = event.currentTarget;
+    const userLogin = useSelector((state: RootState) => state.auth)
+
+    const onSubmit = async (values: LoginFormValues) => {
         const data = {
-            email: target.email.value,
-            password: target.password.value,
+            email: values.email,
+            password: values.password,
         }
-        dispatch(login(data) as any);
-
-        if (userLoginInfo.isSuccess == true) {
-            toast.success("logged in succsfully");
-        }
-        else {
-            (userLoginInfo.isSuccess == false)
-            toast.error("logain failed");
-        }
-    };
-
+        dispatch(login(data) as any).then((res: any) => {
+            if (res.payload != null && res.payload != "Network Error") {
+                toast.success(res.payload.message)
+                if (res.payload.success == true) {
+                    toast.success(res.payload.message)
+                }
+                else {
+                    toast.error(res.payload);
+                }
+            } else {
+                toast.error("Network Error")
+            }
+        })
+    }
 
     return (
         <>
-
             <ToastContainer />
-            <div className='Container'>
-                <h1>LOGIN</h1>
-                <Form.Root onSubmit={onSubmit} className="FormRoot">
+            <Grid container component="main" sx={{ height: '100vh' }}>
+                <CssBaseline />
+                <Grid
+                    item
+                    xs={false}
+                    sm={4}
+                    md={7}
+                    sx={{
+                        backgroundImage: 'url(https://source.unsplash.com/random?wallpapers)',
+                        backgroundRepeat: 'no-repeat',
+                        backgroundColor: (t) =>
+                            t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center',
+                    }}
+                />
+                <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+                    <Box
+                        sx={{
+                            my: 8,
+                            mx: 4,
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            mt : 14
+                        }}
+                    >
+                        <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+                            {/* <LockOutlinedIcon /> */}
+                        </Avatar>
+                        <Typography component="h1" variant="h5">
+                            Log in
+                        </Typography>
+                        <Box sx={{ mt: 1 }}>
+                            <Formik
+                                initialValues={{
+                                    email: "",
+                                    password: ""
+                                }}
+                                validationSchema={LoginSchema}
+                                onSubmit={onSubmit}>
+                                {(formikProps: FormikProps<LoginFormValues>) => (
+                                    <Form noValidate autoComplete="off">
+                                        <TextField
+                                            margin="normal"
+                                            required
+                                            fullWidth
+                                            id="email"
+                                            label="Email Address"
+                                            name="email"
+                                            autoComplete="email"
+                                            autoFocus
+                                            variant="outlined"
+                                            error={formikProps.errors.email ? Boolean(formikProps.touched.email && formikProps.errors.email) : false}
+                                            helperText={formikProps.errors.email && formikProps.touched.email ? formikProps.errors.email : null}
+                                            value={formikProps.values.email}
+                                            onChange={formikProps.handleChange}
+                                            onBlur={formikProps.handleBlur}
+                                        />
+                                        <TextField
+                                            margin="normal"
+                                            autoFocus
+                                            required
+                                            fullWidth
+                                            name="password"
+                                            label="Password"
+                                            type="password"
+                                            id="password"
+                                            autoComplete="current-password"
+                                            variant="outlined"
+                                            error={formikProps.errors.password ? Boolean(formikProps.touched.password && formikProps.errors.password) : false}
+                                            helperText={formikProps.errors.password && formikProps.touched.password ? formikProps.errors.password : null}
+                                            value={formikProps.values.password}
+                                            onChange={formikProps.handleChange}
+                                            onBlur={formikProps.handleBlur}
+                                        />
+                                        <FormControlLabel
+                                            control={<Checkbox value="remember" color="primary" />}
+                                            label="Remember me"
+                                        />
+                                        <Button
+                                            type="submit"
+                                            fullWidth
+                                            variant="contained"
+                                            sx={{ mt: 3, mb: 2 }}
+                                        >
+                                            {userLogin.isLoading ? <CircularProgress size={24} color='inherit' /> : "Sign In"}
+                                        </Button>
 
-                    <Form.Field className="FormField" name="email">
-                        <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between' }}>
-                            <Form.Label className="FormLabel">Email</Form.Label>
-                            <Form.Message className="FormMessage" match="valueMissing">
-                                Please enter your email
-                            </Form.Message>
-                        </div>
-                        <Form.Control asChild>
-                            <input placeholder='Email' name="email" className="Input" type="email" required />
-                        </Form.Control>
-                    </Form.Field>
-
-                    <Form.Field className="FormField" name="Password">
-                        <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between' }}>
-                            <Form.Label className="FormLabel">Password</Form.Label>
-                            <Form.Message className="FormMessage" match="valueMissing">
-                                Please enter Your Password
-                            </Form.Message>
-                            <Form.Message className="FormMessage" match={(value, formData) => value.length < 6}>
-                                Password is less then 6 letters
-                            </Form.Message>
-                        </div>
-                        <Form.Control asChild>
-                            <input placeholder='Password' name="password" className="Input" type="password" required />
-                        </Form.Control>
-                    </Form.Field>
-
-                    <Form.Submit asChild>
-                        <button type='submit' className="Button" style={{ marginTop: 10 }}>
-                            {userLoginInfo.isLoading ? <Loader /> : "Submit"}
-
-                        </button>
-                    </Form.Submit>
-                </Form.Root>
-            </div>
+                                    </Form>
+                                )}</Formik>
+                            <Grid container>
+                                <Grid item xs>
+                                    <Link href="#" variant="body2">
+                                        Forgot password?
+                                    </Link>
+                                </Grid>
+                                <Grid item>
+                                    <Link href="#" variant="body2">
+                                        {"Don't have an account? Sign Up"}
+                                    </Link>
+                                </Grid>
+                            </Grid>
+                            <Copyright sx={{ mt: 5 }} />
+                        </Box>
+                    </Box>
+                </Grid>
+            </Grid >
         </>
-
     );
 }
-

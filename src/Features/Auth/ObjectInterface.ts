@@ -30,6 +30,6 @@ export interface AuthResponse {
     message: string,
     success: boolean,
     validationMessages: [],
-    access_token: string
+    access_token:  string | null
 }
 
