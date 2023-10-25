@@ -1,5 +1,4 @@
-import * as React from 'react';
-import Checkbox from '@mui/material/Checkbox';
+// import Checkbox from '@mui/material/Checkbox';
 import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
 import { orange } from '@mui/material/colors';
 
@@ -14,22 +13,56 @@ declare module '@mui/material/styles' {
     status?: {
       danger?: string;
     };
+
   }
 }
 
-const CustomCheckbox = styled(Checkbox)(({ theme }) => ({
-  color: theme.status.danger,
-  '&.Mui-checked': {
-    color: theme.status.danger,
-  },
-  
-}));
+// const CustomCheckbox = styled(Checkbox)(({ theme }) => ({
+//   color: theme.status.danger,
+//   '&.Mui-checked': {
+//     color: theme.status.danger,
+//   },
 
-const theme = createTheme({
+// }));
+
+export const theme = createTheme({
+  // status: {
+  //   danger: orange[500],
+  // },
+  // palette: {
+  //   primary: {
+  //     main: '#00DD00',
+  //     contrastText: '#fff',
+      
+  //   },
+  //   secondary: {
+  //     main: '#19857b',
+  //   },
+    
+ 
+  //   background: {
+  //     default: '#fff',
+  //   },
+  // },s
   status: {
     danger: orange[500],
   },
-  
+  palette: {
+    primary: {
+      main: '#0B0C0D',
+      contrastText: '#fff',
+      
+    },
+    secondary: {
+      main: '#F1F2F4',
+    },
+    
+ 
+    background: {
+      default: '#fff',
+    },
+  },
+
 });
 
 // export default function CustomStyles() {
