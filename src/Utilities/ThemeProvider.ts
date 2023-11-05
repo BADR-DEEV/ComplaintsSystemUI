@@ -49,12 +49,17 @@ export const theme = createTheme({
   },
   palette: {
     primary: {
-      main: '#0B0C0D',
-      contrastText: '#fff',
+      // main: '#0B0C0D',
+      main : "#101827",
+      contrastText: '#a0a7b2',
       
     },
     secondary: {
-      main: '#F1F2F4',
+      // main: '#F1F2F4',
+      main: '#19857b',
+
+
+      
     },
     
  

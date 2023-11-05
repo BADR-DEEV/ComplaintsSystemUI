@@ -11,7 +11,9 @@ const PrivateRoute = () => {
    const userLogin = useSelector((state: RootState) => state.auth)
    const locatoin = useLocation();
     return (
-         userLogin.user ? <Outlet /> : <Navigate to="/login" replace state={{locatoin}}/>
+     //     userLogin.user ? <Outlet /> : <Navigate to="/login" replace state={{locatoin}}/>
+         userLogin.user ? <Outlet /> : <Navigate to="/login"/>
+
     );
 };
 

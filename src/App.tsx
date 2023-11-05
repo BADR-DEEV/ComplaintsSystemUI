@@ -1,58 +1,61 @@
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import LoginScreen from "./Pages/LoginScreen";
+import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
+import LoginScreen from "./Pages/Login/LoginScreen";
 import PrivateRoute from "./Utilities/PrivateRoute";
-import DashboardScreen from "./Pages/DashboardScreen";
 import { ThemeProvider } from "@emotion/react";
 import { theme } from "./Utilities/ThemeProvider";
-import Navbar from "./Components/Navbar";
-
+import Home from "./Pages/home/Home";
+import Users from "./Pages/users/Users";
+import { Footer } from "./Components/Footer/Footer";
+import { Menu } from "./Components/Menu/Menu";
+import { Complaints } from "./Pages/Complaints/Complaints";
+import { Navbar } from "./Components/Navbar/Navbar";
+import "./styles/global.scss"
 
 function App() {
 
 
-  const router = createBrowserRouter(
-    [
-      {
-        path: "/login",
-        element: <LoginScreen />,
-
-      },
-      {
-        path: "*",
-        element: <p>not found</p>
-      },
-      {
-
-        path: "/",
-        // element: <Navbar></Navbar>,
-        element: <PrivateRoute />,
-        children: [
-          {
-            path: "/",
-            element: <DashboardScreen />
-          },
-          {
-            path: "/dashboard",
-            element: <DashboardScreen />
-          },
-          {
-            path: "/profile",
-            element: <p>profile</p>
-          },
-          {
-            path: "/settings",
-            element: <p>settings</p>
-          },
-          {
-            path: "/logout",
-            element: <p>logout</p>
-          },
-        ]
+  const Layout = () => {
+    return (
+      <div className="main">
+        <Navbar />
+        <div className="container">
+          <div className="menuContainer">
+            <Menu />
+          </div>
+          <div className="contentContainer">
+              <Outlet />
+          </div>
+        </div>
+        <Footer />
+      </div>
+    );
+  };
 
 
-      }
-    ]
-  );
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <Layout />,
+      children: [
+        {
+          path: "/home",
+          element: <Home />,
+        },
+        {
+          path: "/users",
+          element: <Users />,
+        },
+        {
+          path: "/Complaints",
+          element: <Complaints />,
+        },
+      ],
+    },
+    {
+      path: "/login",
+      element: <LoginScreen />,
+    },
+  ]);
 
   return (
     <>
