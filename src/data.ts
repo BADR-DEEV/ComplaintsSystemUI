@@ -2,6 +2,7 @@ import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import AssistantOutlinedIcon from '@mui/icons-material/AssistantOutlined';
 import TaskAltOutlinedIcon from '@mui/icons-material/TaskAltOutlined';
+import CategoryOutlinedIcon from '@mui/icons-material/CategoryOutlined';
 export const menu = [
     {
       id: 1,
@@ -10,7 +11,7 @@ export const menu = [
         {
           id: 1,
           title: "Homepage",
-          url: "/home",
+          url: "/dashboard/home",
           icon: HomeOutlinedIcon,
         },
         {
@@ -28,7 +29,7 @@ export const menu = [
         {
           id: 1,
           title: "Users",
-          url: "/users",
+          url: "/dashboard/users",
           icon: PersonOutlineOutlinedIcon,
         },
         {
@@ -45,9 +46,9 @@ export const menu = [
         },
         {
           id: 4,
-          title: "Posts",
-          url: "/posts",
-          icon: "post2.svg",
+          title: "Categories",
+          url: "/Categories",
+          icon: CategoryOutlinedIcon,
         },
       ],
     },

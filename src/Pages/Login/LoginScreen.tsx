@@ -12,7 +12,7 @@ import Typography from '@mui/material/Typography';
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../../Features/Auth/AuthSlice';
 import { RootState } from '../../app/Store';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Form, Formik, FormikProps } from 'formik';
 import { LoginFormValues, LoginSchema } from '../../Utilities/FormSchema';
@@ -20,16 +20,13 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { Copyright } from '../../Components/others/CopyRight';
 import { ThemeProvider } from '@emotion/react';
 import { theme } from '../../Utilities/ThemeProvider';
-
-import { Navigate, useLocation, useNavigate } from 'react-router-dom';
-
+import "./LoginScreen.scss"
+import { Navigate, useNavigate } from 'react-router-dom';
 
 export default function LoginScreen() {
     const dispatch = useDispatch();
     const userLogin = useSelector((state: RootState) => state.auth)
     const navigate = useNavigate();
-    const location = useLocation();
-
     const onSubmit = async (values: LoginFormValues) => {
 
         const data = {
@@ -39,17 +36,11 @@ export default function LoginScreen() {
         dispatch(login(data) as any).then((res: any) => {
             if (res.payload != null && res.payload != "Network Error") {
                 if (res.payload.success == true) {
-                    // if(location.state?.from){
-                    //     navigate(location.state.from)
-                    // }
-
-                    navigate("/dashboard")
-
-                    toast.success(res.payload.message)
-
+                    navigate("dashboard/home")
+                    toast.success(res.payload.message )
                 }
                 else {
-                    toast.error(res.payload);
+                    toast.error(res.payload ?? "Login Error");
                 }
             } else {
                 toast.error("Network Error")
@@ -58,7 +49,7 @@ export default function LoginScreen() {
     }
     return (
         <>
-            {userLogin.user ? <Navigate to="/home" /> :
+            {userLogin.user ? <Navigate to="/dashboard/home" /> :
                 <ThemeProvider theme={theme}>
                     <Grid container component="main" sx={{ height: '100vh' }}>
                         <CssBaseline />
@@ -76,8 +67,6 @@ export default function LoginScreen() {
                                 backgroundPosition: 'center',
                             }}
                         >
-                            {/* <Typography sx = {{color : "#00dd00" , fontSize : "32px" , fontWeight : 600}}>Ticketing System</Typography> */}
-
                         </Grid>
                         <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
                             <Box

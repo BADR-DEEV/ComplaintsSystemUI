@@ -10,12 +10,14 @@ import { Menu } from "./Components/Menu/Menu";
 import { Complaints } from "./Pages/Complaints/Complaints";
 import { Navbar } from "./Components/Navbar/Navbar";
 import "./styles/global.scss"
+import { NotFound } from "./Pages/NotFound/NotFound";
 
 function App() {
 
 
   const Layout = () => {
     return (
+      
       <div className="main">
         <Navbar />
         <div className="container">
@@ -34,19 +36,27 @@ function App() {
 
   const router = createBrowserRouter([
     {
-      path: "/",
+      path: "/dashboard/",
+      element: <PrivateRoute />,
+    },
+    {
+      path: "*",
+      element: <NotFound/>,
+    },
+    {
+      path: "/dashboard/",
       element: <Layout />,
       children: [
         {
-          path: "/home",
+          path: "/dashboard/home",
           element: <Home />,
         },
         {
-          path: "/users",
+          path: "/dashboard/users",
           element: <Users />,
         },
         {
-          path: "/Complaints",
+          path: "/dashboard/Complaints",
           element: <Complaints />,
         },
       ],

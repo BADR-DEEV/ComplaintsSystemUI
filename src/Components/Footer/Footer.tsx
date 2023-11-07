@@ -1,3 +1,4 @@
+import { Copyright } from "../others/CopyRight";
 import "./footer.scss";
 
 export const Footer = () => {
@@ -7,7 +8,7 @@ export const Footer = () => {
         Tickety
       </span>
       <span>
-        lorem ipsum
+        <Copyright/>
       </span>
     </div>
   )

@@ -1,6 +1,5 @@
 import "./navbar.scss"
 import logoImg from '../../assets/logo.svg'
-import SettingsIcon from '@mui/icons-material/Settings';
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import SearchIcon from '@mui/icons-material/Search';
@@ -13,23 +12,17 @@ export const Navbar = () => {
         <span>Tickety</span>
       </div>
       <div className="icons">
-      <SearchIcon/>
-        {/* <img src="" alt="" className="icon"/>
-        <img src="" alt="" className="icon"/> */}
+        <SearchIcon />
         <div className="notification">
-        <NotificationsNoneIcon/>
-        <span>1</span>
-
-
+          <NotificationsNoneIcon />
+          <span>1</span>
         </div>
         <div className="user">
-          <PersonOutlineIcon/>
+          <PersonOutlineIcon />
           <span>Badr</span>
-          
         </div>
-        {/* <img src="" alt="" className="icon"/> */}
         <div className="settings">
-        <SettingsOutlinedIcon/>
+          <SettingsOutlinedIcon />
         </div>
       </div>
     </div>

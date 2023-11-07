@@ -1,16 +1,16 @@
-
 @import "./variables.scss";
 
 
 * {
-  margin : 0;
+  margin: 0;
   padding: 0;
   box-sizing: border-box;
-  
+
 }
+
 a {
   text-decoration: none;
-  color : inherit;
+  color: inherit;
 }
 
 
@@ -21,14 +21,16 @@ a {
 }
 
 .container {
-display: flex;
+  display: flex;
 }
 
 
 .menuContainer {
   width: 250px;
   padding: 5px 20px;
-  border-right: 2px solid $soft-bg;
+  border-right: 8px solid $soft-bg;
+  height: 80vh;
+  overflow-y: auto;
 }
 
 .contentContainer {

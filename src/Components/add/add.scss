@@ -1,0 +1,94 @@
+@import "../../styles/variables.scss";
+
+
+
+.add {
+
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: rgb(0, 0, 0, 0.724);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    input {
+        background-color: $soft-bg;
+    }
+
+    .model {
+        padding: 50px;
+        border-radius: 10px;
+        background-color: $main-bg;
+        position: relative;
+        
+
+        h1 {
+            margin-bottom: 40px;
+            font-size: 24px;
+            color: $soft-color;
+        }
+
+        .close {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            cursor: pointer;
+            font-size: 24px;
+        }
+
+        form {
+
+            display: flex;
+            flex-wrap: wrap;
+
+            max-width: 500px;
+            justify-content: space-between;
+
+            .item {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+                margin-bottom: 20px;
+                width: 40%;
+
+                label {
+                    font-weight: bold;
+                    font-size: 14px;
+
+                }
+
+                input {
+                    padding: 10px;
+                    background-color: transparent;
+                    color: white;
+                    outline: none;
+                    border: 1px solid $soft-color;
+                    border-radius: 3px;
+                }
+
+
+
+            }
+
+            .MuiButtonBase-root {
+                width: 100%;
+                padding: 10px
+            }
+        }
+
+    }
+}
+
+.anime {
+
+    animation-name: example;
+    animation-duration: 0.3s;
+  }
+  
+  @keyframes example {
+    from {transform: scale(0)};
+    to {transform: scale(1)};
+  }
