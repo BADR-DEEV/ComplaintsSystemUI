@@ -35,13 +35,13 @@ export const menu = [
         {
           id: 2,
           title: "Complaints",
-          url: "/complaints",
+          url: "/dashboard/complaints",
           icon: AssistantOutlinedIcon,
         },
         {
           id: 3,
           title: "Tasks",
-          url: "/Tasks",
+          url: "/dashboard/Tasks",
           icon: TaskAltOutlinedIcon,
         },
         {

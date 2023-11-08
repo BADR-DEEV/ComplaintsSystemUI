@@ -21,12 +21,11 @@ import { Copyright } from '../../Components/others/CopyRight';
 import { ThemeProvider } from '@emotion/react';
 import { theme } from '../../Utilities/ThemeProvider';
 import "./LoginScreen.scss"
-import { Navigate, useNavigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 
 export default function LoginScreen() {
     const dispatch = useDispatch();
     const userLogin = useSelector((state: RootState) => state.auth)
-    const navigate = useNavigate();
     const onSubmit = async (values: LoginFormValues) => {
 
         const data = {
@@ -36,7 +35,7 @@ export default function LoginScreen() {
         dispatch(login(data) as any).then((res: any) => {
             if (res.payload != null && res.payload != "Network Error") {
                 if (res.payload.success == true) {
-                    navigate("dashboard/home")
+                    // navigate("/dashboard/home")
                     toast.success(res.payload.message )
                 }
                 else {

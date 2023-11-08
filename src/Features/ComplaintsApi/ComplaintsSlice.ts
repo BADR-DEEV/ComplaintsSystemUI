@@ -1,24 +1,26 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import authService from './AuthService'
-import { LoginForm, AuthState } from "./ObjectInterface";
+import Complaintservice from "./ComplaintsService";
 
 
+export interface ComplaintState {
+    isError: boolean,
+    isSuccess: boolean,
+    isLoading: boolean,
+    message: string,
+};
 
-const user: string | null = JSON.parse(localStorage.getItem('user') as string);
 
- var initialState: AuthState = {
-    user: user ? user : null,
+var initialState: ComplaintState = {
     isError: false,
     isSuccess: false,
     isLoading: false,
     message: '',
 }
 // Login user
-export const login = createAsyncThunk('auth/login', async (formData: LoginForm, thunkAPI ) => {
+export const getComplaints = createAsyncThunk('api/complaints', async (_, thunkAPI ) => {
     try {
-        var response = await authService.login(formData)
-        console.log(user)
-      return thunkAPI.fulfillWithValue(response)
+        const response = await Complaintservice.getComplaints()
+        return thunkAPI.fulfillWithValue(response)
 
 
     } catch (error: any) {
@@ -28,10 +30,13 @@ export const login = createAsyncThunk('auth/login', async (formData: LoginForm, 
         return thunkAPI.rejectWithValue(message)
 
     }
+
+
+
 })
 
-export const AuthSlice = createSlice({
-    name: "auth",
+export const ComplaintsSlice = createSlice({
+    name: "complaints",
     initialState,
     reducers: {
         reset: (state) => {
@@ -39,30 +44,30 @@ export const AuthSlice = createSlice({
             state.isError = false
             state.isSuccess = false
             state.message = ''
-            state.user = null
         },
     },
     extraReducers: (builder) => {
         builder
-            .addCase(login.pending, (state) => {
+            .addCase(getComplaints.pending, (state) => {
                 state.isLoading = true
             })
-            .addCase(login.fulfilled, (state, action) => {
+            .addCase(getComplaints.fulfilled, (state, action) => {
                 state.isLoading = false
                 state.isSuccess = true
-                state.user = action.payload as any
                 state.message = action.payload as any
                 state.isError = false
             })
-            .addCase(login.rejected, (state, action) => {
+            .addCase(getComplaints.rejected, (state, action) => {
                 state.isLoading = false
                 state.isError = true
-                state.user = null
                 state.message = action.payload as any
 
             })
     }
 });
 
-export const { reset } = AuthSlice.actions
-export default AuthSlice.reducer
+// export const { reset } = ComplaintsSlice.actions
+// export default ComplaintsSlice.reducer;
+
+export const {reset} = ComplaintsSlice.actions
+export default ComplaintsSlice.reducer
